@@ -57,7 +57,7 @@ bool isRTCrunning()
     I2C_transfer(i2c, &i2cTransaction);
     //System_printf(" Seconds Register Initial Value %d  \n",   RxBuffer[0]);
     //System_flush();
-    if(RxBuffer[0] >= 80)
+    if(RxBuffer[0] >= 80) //if last bit of the REG_RTCSEC is 1 then it means RTC is running
         return true;
     else
         return false;
@@ -87,7 +87,7 @@ void StartRTC()
 {
     uint8_t TxBuffer[2];
     TxBuffer[0]=REG_RTCSEC;
-    TxBuffer[1]=convertToBcd(80);
+    TxBuffer[1]=convertToBcd(80);  //set last bit of RTCSEC to 1 to start RTC.
 
     i2cTransaction.slaveAddress = MCP7940_I2C;
     i2cTransaction.writeBuf=TxBuffer;
